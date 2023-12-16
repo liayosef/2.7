@@ -14,7 +14,13 @@ QUEUE_LEN = 1
 logging.basicConfig(filename="client.log", level="DEBUG")
 
 
-def getting_parameter_from_the_client(client_socket,message1):
+def getting_parameter_from_the_client(client_socket, message1):
+    """
+    gets the parmter from the client
+    :param client_socket: a socket
+    :param message1: a string message
+    :return: the message from the client
+    """
     client_socket.send(protocol.send_protocol(message1).encode())
     logging.debug("sending a message request" + message1)
     message2 = protocol.recv_protocol(client_socket)
@@ -23,12 +29,22 @@ def getting_parameter_from_the_client(client_socket,message1):
 
 
 def checking_the_existence_of_the_file(path):
+    """
+    cheacks if the file exsist on the computre
+    :param path: the path to the file
+    :return: a string contaning error or the path
+    """
     if not os.path.isfile(path):
         path = "error"
     return path
 
 
 def checking_message_dir(path):
+    """
+    cheacks if the file is one the computure
+    :param path:the path to the file
+    :return:a string conaning the path or error
+    """
     if not os.path.isdir(path):
         path = "error"
     return path
@@ -72,13 +88,11 @@ def main():
                     elif request == "EXECUTE":
                         path = getting_parameter_from_the_client(client_socket, " enter path")
                         comment = fanctions.execute(path)
-                    elif request == "SCREEN SHOT":
-                        comment = fanctions.take_screenshot()
                     elif request == "SEND PHOTO":
-                        comment = fanctions.send_photo()
+                        comment = fanctions.take_screenshot()
 
                     else:
-                        comment = "illegal request pls enter DIR,DELETE,COPY,EXECUTE, TAKE SCREENSHOT,SEND PHOTO,EXIT"
+                        comment = "illegal request pls enter DIR,DELETE,COPY,EXECUTE,SEND PHOTO,EXIT"
                     logging.debug("sending a comment " + comment)
                     client_socket.send(protocol.send_protocol(comment).encode())
                     request = protocol.recv_protocol(client_socket)

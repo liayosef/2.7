@@ -11,6 +11,12 @@ logging.basicConfig(filename="client.log", level="DEBUG")
 
 
 def sending_parameter(response, my_socket):
+    """
+    sends a parmater to the server
+    :param response: a string
+    :param my_socket: a socket
+    :return: the responce of the server
+    """
     print("server requested " + response)
     path = input("pls enter a message: ")
     logging.debug("sending a path " + path)
@@ -21,8 +27,13 @@ def sending_parameter(response, my_socket):
 
 
 def checking_the_msg(message):
+    """
+    cheacks if the message is one of the requierd messages
+    :param message: a string contaning the message
+    :return: a boll
+    """
     if (message == "DIR" or message == "DELETE" or message == "COPY" or message == "EXECUTE" or
-            message == " TAKE SCREENSHOT " or message == "SEND PHOTO"):
+            message == "TAKE SCREENSHOT" or message == "SEND PHOTO"):
         return True
     else:
         return False
@@ -57,6 +68,7 @@ def main():
                         image.show()
                     else:
                         print("there isn't a picture")
+                if msg != "SEND PHOTO": print(response)
                 print(response)
                 msg= input("pls enter a request:")
                 my_socket.send(protocol.send_protocol(msg).encode())
