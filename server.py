@@ -64,8 +64,7 @@ def main():
                         path_copy = getting_parameter_from_the_client(client_socket, "enter path to copy")
                         path_copy = checking_the_existence_of_the_file(path_copy)
                         path_paste = getting_parameter_from_the_client(client_socket, "enter path to paste")
-                        path_paste = checking_the_existence_of_the_file(path_paste)
-                        if path_copy == "err" or path_paste == "err":
+                        if path_copy == "error":
                             comment = "the path dose not exists"
                         else:
                             fanctions.copy(path_copy,path_paste)
@@ -73,14 +72,13 @@ def main():
                     elif request == "EXECUTE":
                         path = getting_parameter_from_the_client(client_socket, " enter path")
                         comment = fanctions.execute(path)
-                    elif request == "TAKE SCREENSHOT":
+                    elif request == "SCREEN SHOT":
                         comment = fanctions.take_screenshot()
                     elif request == "SEND PHOTO":
                         comment = fanctions.send_photo()
 
                     else:
-                        comment = "illegal request pls enter DIR,DELETE,COPY,EXECUTE,TAKE SCREENSHOT,SEND PHOTO,EXIT"
-                    print(comment)
+                        comment = "illegal request pls enter DIR,DELETE,COPY,EXECUTE, TAKE SCREENSHOT,SEND PHOTO,EXIT"
                     logging.debug("sending a comment " + comment)
                     client_socket.send(protocol.send_protocol(comment).encode())
                     request = protocol.recv_protocol(client_socket)

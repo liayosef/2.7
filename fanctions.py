@@ -7,14 +7,21 @@ import glob
 import os
 import shutil
 import subprocess
-import pyautogui
+from PIL import ImageGrab
+import base64
+
 
 ERR = "an error happened"
 
 
 def dir_filename(path):
+    """
+
+    :param path:
+    :return:
+    """
     try:
-        file_name = r'' + path + '*.*'
+        file_name = r'' + path + '\\*.*'
         file_list = glob.glob(file_name)
         file_list = ",".join(file_list)
         return file_list
@@ -42,8 +49,9 @@ def execute(path):
 def take_screenshot():
     comment = "taken"
     try:
-        image = pyautogui.screenshot()
-        image.save("screen.jpg")
+        file_path = "screen.jpg"
+        screenshot = ImageGrab.grab()
+        screenshot.save(file_path, 'jpg')
     except Exception as err:
         comment = "could not take a picture:" + str(err)
     return comment
@@ -51,8 +59,8 @@ def take_screenshot():
 
 def send_photo():
     if os.path.isfile("screen.jpg"):
-        with open("screen.jpg", "rb") as file:
-            comment = file.read()
+        with open("screen.jpg", "rb") as imageFile:
+            comment =base64.b64decode(imageFile.read())
         comment = comment.decode()
     else:
         comment = ERR

@@ -22,7 +22,7 @@ def sending_parameter(response, my_socket):
 
 def checking_the_msg(message):
     if (message == "DIR" or message == "DELETE" or message == "COPY" or message == "EXECUTE" or
-            message == "TAKE SCREENSHOT " or message == "SEND PHOTO"):
+            message == " TAKE SCREENSHOT " or message == "SEND PHOTO"):
         return True
     else:
         return False
@@ -57,9 +57,8 @@ def main():
                         image.show()
                     else:
                         print("there isn't a picture")
-                comment = protocol.recv_protocol(my_socket)
-                print(comment)
-                msg = input("pls enter a request:")
+                print(response)
+                msg= input("pls enter a request:")
                 my_socket.send(protocol.send_protocol(msg).encode())
                 response = protocol.recv_protocol(my_socket)
                 logging.debug("server responded with" + response)
